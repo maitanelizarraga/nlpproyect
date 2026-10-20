@@ -2,6 +2,7 @@ from datasets import load_dataset
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from config import SEED_SPLIT
 
 def cargar_dataset():
     print("\n CARGAMOS EL DATASET")
@@ -25,6 +26,7 @@ def cargar_dataset():
     print("\nValores nulos por columna:\n", df.isnull().sum())
     print("\nFilas duplicadas:", int(df.duplicated().sum()))
 
+    n_inicial = len(df)
     # Eliminar filas que no tienen texto original o simplificado.
     df = df.dropna(subset=["question", "answer"]).copy()
     df["question"] = df["question"].astype(str).str.strip()
@@ -39,6 +41,7 @@ def cargar_dataset():
     df["longitud_simplificada"] = df["answer"].str.split().str.len()
 
     print("\nDimensiones tras limpieza:", df.shape)
+    print("Registros eliminados en la limpieza:", n_inicial - len(df))
     print("Longitud media del texto original:",
           round(float(df["longitud_original"].mean()), 2))
     print("Longitud media del texto simplificado:",
@@ -46,7 +49,7 @@ def cargar_dataset():
 
     return df
 
-def split_dataset(df, train_size=0.70, val_size=0.15, test_size=0.15, random_state=42):
+def split_dataset(df, train_size=0.70, val_size=0.15, test_size=0.15, random_state=SEED_SPLIT):
     print("\n DIVISIÓN DE DATASET:")
     # Primero separamos train del resto (val + test)
     train_df, temp_df = train_test_split(

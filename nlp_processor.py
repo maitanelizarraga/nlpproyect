@@ -1,12 +1,13 @@
 import spacy
+from config import MODELO_SPACY
 
 #el spacy analiza y entiende la estructura gramatical del texto
 def cargar_spacy():
     print("\n CARGAR SPACY:")
-    MODELO_SPACY = "es_core_news_md"
     #Carga el modelo español
-    print("modelo cargado")
-    return spacy.load(MODELO_SPACY)
+    nlp = spacy.load(MODELO_SPACY)
+    print("modelo cargado:", MODELO_SPACY)
+    return nlp
    
 def procesar_textos(df, nlp):
     print("\n PROCESAR TEXTOS:")
@@ -35,5 +36,10 @@ def procesar_textos(df, nlp):
 
     df["procesado_original"] = [extraer(doc) for doc in docs_originales]
     df["procesado_simplificado"] = [extraer(doc) for doc in docs_simplificados]
+    # Longitud en tokens de spaCy (comparable con el vocabulario y el análisis OOV)
+    df["tokens_original"] = [len(p["tokens"]) for p in df["procesado_original"]]
+    df["tokens_simplificado"] = [len(p["tokens"]) for p in df["procesado_simplificado"]]
+    print("Media de tokens spaCy (original):", round(float(df["tokens_original"].mean()), 2))
+    print("Media de tokens spaCy (simplificado):", round(float(df["tokens_simplificado"].mean()), 2))
     print("procesado")
     return df
