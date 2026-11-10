@@ -4,10 +4,20 @@ from gensim.models import Word2Vec
 from config import SEED, CARPETA_SALIDA
 
 
+def normalizar_tokens(tokens):
+    """Normalización DESPUÉS de tokenizar con spaCy: minúsculas. La tokenización va primero porque
+    el tokenizador, el lematizador y el NER de spaCy usan las mayúsculas y la puntuación del texto
+    crudo; normalizar antes les quitaría información. Así 'Ley' y 'ley' comparten vector."""
+    return [t.lower() for t in tokens]
+
+
 def entrenar_word2vec(df_train):
     print("\n--- Entrenando Word2Vec ---")
-    # Extraer solo la lista de tokens (textos originales de la partición de entrenamiento)
-    corpus_tokens = [registro["tokens"] for registro in df_train["procesado_original"]]
+    # Corpus = textos originales (question) Y simplificados (answer) de la partición de TRAIN.
+    # Los dos son texto en español del mismo dominio: se duplica el corpus (más ejemplos de cada
+    # palabra) y el modelo conoce también el vocabulario simplificado. Solo se usa train.
+    corpus_tokens = [normalizar_tokens(r["tokens"]) for r in df_train["procesado_original"]] + \
+                    [normalizar_tokens(r["tokens"]) for r in df_train["procesado_simplificado"]]
 
     modelo = Word2Vec(
         sentences=corpus_tokens,
@@ -21,7 +31,7 @@ def entrenar_word2vec(df_train):
     )
 
     modelo.save(str(CARPETA_SALIDA / "word2vec_juridico.model"))
-    print("Vocabulario aprendido Word2Vec:", len(modelo.wv))
+    print("Vocabulario aprendido Word2Vec:", len(modelo.wv), "| frases de entrenamiento:", len(corpus_tokens))
     return modelo
 
 
@@ -31,7 +41,7 @@ def _contar_oov(df, esta_en_vocabulario):
     from collections import Counter
     total, oov, palabras = 0, 0, Counter()
     for registro in df["procesado_original"]:
-        for palabra in registro["tokens"]:
+        for palabra in normalizar_tokens(registro["tokens"]):
             total += 1
             if not esta_en_vocabulario(palabra):
                 oov += 1
@@ -43,7 +53,7 @@ def analizar_palabras_desconocidas(df, modelo_w2v):
     """OOV del Word2Vec propio, global y por partición (requiere columna 'split')."""
     print("\n--- Analizando palabras desconocidas (OOV) con Word2Vec propio ---")
     wv = modelo_w2v.wv
-    en_vocab = lambda p: p in wv or p.lower() in wv
+    en_vocab = lambda p: p in wv
 
     filas, resultados = [], {}
     grupos = [("global", df)] + [(s, df[df["split"] == s]) for s in ["train", "validation", "test"]]
@@ -66,7 +76,7 @@ def analizar_oov_preentrenado(df, nlp):
     """OOV con los vectores estáticos preentrenados que incluye es_core_news_md.
     Sirve como referencia para decidir si compensa entrenar un Word2Vec propio."""
     print("\n--- Analizando OOV con vectores preentrenados de spaCy ---")
-    en_vocab = lambda p: nlp.vocab[p].has_vector or nlp.vocab[p.lower()].has_vector
+    en_vocab = lambda p: nlp.vocab[p].has_vector
     total, oov, _ = _contar_oov(df, en_vocab)
     pct = 100 * oov / total if total else 0.0
     print(f"spaCy {nlp.meta['name']}: {total} tokens, {oov} OOV ({pct:.2f}%)")
@@ -81,8 +91,7 @@ def vectorizar_documentos_w2v(df, modelo_w2v):
     dim = wv.vector_size
     matriz = np.zeros((len(df), dim), dtype=np.float32)
     for i, registro in enumerate(df["procesado_original"]):
-        vecs = [wv[p] if p in wv else wv[p.lower()]
-                for p in registro["tokens"] if p in wv or p.lower() in wv]
+        vecs = [wv[p] for p in normalizar_tokens(registro["tokens"]) if p in wv]
         if vecs:
             matriz[i] = np.mean(vecs, axis=0)
     np.savez_compressed(

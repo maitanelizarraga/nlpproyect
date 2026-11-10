@@ -1,7 +1,7 @@
 [project]
 name = "nlpproyect"
 version = "0.1.0"
-description = "Add your description here"
+description = "Proyecto NLP"
 readme = "README.md"
 authors = [
     { name = "maitanelizarraga", email = "maitane.lizarraga@opendeusto.es" }
@@ -9,11 +9,13 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "datasets>=5.1.0",
+    "es-core-news-md",
     "gensim>=4.4.0",
     "joblib>=1.6.0",
     "pandas>=3.0.6",
     "protobuf>=7.36.2",
     "regex>=2026.9.29",
+    "sacrebleu>=2.6.0",
     "sacremoses>=0.2.0",
     "scikit-learn>=1.9.1",
     "sentence-transformers>=6.1.0",
@@ -24,12 +26,8 @@ dependencies = [
     "transformers>=5.20.1",
 ]
 
-[project.scripts]
-nlpproyect = "nlpproyect:main"
-
-[build-system]
-requires = ["uv_build>=0.12.23,<0.13.0"]
-build-backend = "uv_build"
-
 [tool.uv]
 package = false
+
+[tool.uv.sources]
+es-core-news-md = { url = "https://github.com/explosion/spacy-models/releases/download/es_core_news_md-3.8.0/es_core_news_md-3.8.0-py3-none-any.whl" }
