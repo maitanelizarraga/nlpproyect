@@ -1,0 +1,9 @@
+modelo,familia,representacion,bleu_val,bleu_test,loss_val,acc_token_test,epocas,parametros_entrenables,tiempo_s,cobertura_emb
+Baseline: copiar el original,baseline,-,23.93781594855123,24.087693658432507,,,,,,
+Baseline: vecino más cercano (TF-IDF),baseline,TF-IDF (dispersa),20.218822787142162,19.247095360718927,,,,,,
+"GRU+att, embeddings aleatorios",deep,Embeddings aleatorios,15.867888063268358,15.044913246099231,3.2431247157678573,0.38840824678068636,20.0,9302116.0,3818.0,
+"GRU+att, Word2Vec propio congelado",deep,Word2Vec propio (E2) congelado,17.422567966923594,15.887714624553972,2.9813275315991996,0.39261170295576364,20.0,8501716.0,3714.0,1.0
+"GRU+att, Word2Vec propio fine-tuneado",deep,Word2Vec propio (E2) fine-tuneado,19.52054845086381,17.687580970997843,2.82149668657704,0.4281075551008607,20.0,9302116.0,3813.0,1.0
+"GRU+att, spaCy congelado",deep,spaCy es_core_news_md congelado,11.054676999102265,10.25688151367895,3.0532056916956902,0.39521384249271624,13.0,10563316.0,2782.0,0.96
+"GRU+att, spaCy fine-tuneado",deep,spaCy es_core_news_md fine-tuneado,11.258727732639036,10.499523622812404,3.0123603411686073,0.40155238751862643,13.0,12964516.0,2934.0,0.96
+"GRU sin atención, Word2Vec propio fine-tuneado",deep,Word2Vec propio (E2) fine-tuneado,13.92594629231829,12.425982708616925,3.1170225576382182,0.37292885261214775,20.0,9105252.0,2579.0,1.0
