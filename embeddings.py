@@ -4,7 +4,7 @@ import random
 import numpy as np
 import torch
 import torch.nn as nn
-from config import SEED, EMB_ALEATORIO
+from config import SEED, EMB_ALEATORIO, NORMALIZAR_EMB, STD_EMB_OBJETIVO
 
 PAD, UNK, BOS, EOS = 0, 1, 2, 3
 DEV = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -46,9 +46,38 @@ def matriz_spacy(itos, nlp):
     return _matriz_con_aleatorios(itos, buscar, nlp.vocab.vectors_length)
 
 
-def construir_embedding(tipo, itos, congelar, modelo_w2v, nlp):
-    """Devuelve (nn.Embedding, cobertura). cobertura = % de palabras del vocabulario con vector previo."""
+def _diagnostico(M, tipo):
+    """Escala y diversidad de los vectores (ayuda a entender por que unos embeddings rinden peor)."""
+    filas = M[4:]
+    unicas = len({f.tobytes() for f in filas})
+    print(f"[emb {tipo}] std={filas.std():.3f} | filas distintas: {unicas}/{len(filas)} "
+          f"({100 * unicas / max(len(filas), 1):.1f} %)")
+
+
+def _normalizar(M, tipo):
+    """Recentra y reescala los vectores preentrenados a una escala comun (STD_EMB_OBJETIVO).
+    Los vectores de spaCy tienen otra escala que los demas y eso puede dificultar el entrenamiento."""
+    sub = M[4:]
+    M[4:] = (sub - sub.mean(axis=0)) / (sub.std() + 1e-8) * STD_EMB_OBJETIVO
+    M[PAD] = 0
+    print(f"[emb {tipo}] reescalado a std={STD_EMB_OBJETIVO}")
+    return M
+
+
+def construir_embedding(tipo, itos, congelar, modelo_w2v, nlp, modelo_w2v_ext=None):
+    """Devuelve (nn.Embedding, cobertura). cobertura = % de palabras del vocabulario con vector previo.
+    tipo: aleatorio | w2v (propio, E2) | w2v_ext (propio + dataset externo) | spacy."""
     if tipo == "aleatorio":
         return nn.Embedding(len(itos), EMB_ALEATORIO, padding_idx=PAD), None
-    M, cobertura = matriz_w2v(itos, modelo_w2v) if tipo == "w2v" else matriz_spacy(itos, nlp)
+    if tipo == "w2v":
+        M, cobertura = matriz_w2v(itos, modelo_w2v)
+    elif tipo == "w2v_ext":
+        if modelo_w2v_ext is None:
+            raise ValueError("Se pidio w2v_ext pero no hay Word2Vec entrenado con el dataset externo.")
+        M, cobertura = matriz_w2v(itos, modelo_w2v_ext)
+    else:
+        M, cobertura = matriz_spacy(itos, nlp)
+    _diagnostico(M, tipo)
+    if NORMALIZAR_EMB.get(tipo):
+        M = _normalizar(M, tipo)
     return nn.Embedding.from_pretrained(torch.tensor(M), freeze=congelar, padding_idx=PAD), cobertura

@@ -44,3 +44,33 @@ S2S_MAX_SRC = 200
 S2S_MAX_TGT = 200
 S2S_HIDDEN = 256
 S2S_EPOCAS = 20
+
+
+# ======================= E3 (version corregida): ajustes nuevos =======================
+# --- Correccion de datos: todos los 'question' empiezan con la instruccion del prompt original ---
+PREFIJO_REGEX = r"^\s*escribe\s+el\s+siguiente\s+texto\s+en\s+lenguaje\s+claro\s*:?\s*"
+
+# --- Rigor experimental ---
+SEMILLAS = [123, 7, 2024]          # semillas de las redes (se informa media y desviacion)
+BOOTSTRAP_N = 300                  # remuestreos para los intervalos de confianza al 95 %
+
+# --- Fase 1: rasgos del shallow y atencion en el etiquetador ---
+GRID_RASGOS = ["base", "extendido"]   # base = texto + 4 numericos; extendido = + POS, entidad, stopword, frecuencia
+POS_DIM = 16                       # dimension del embedding de POS (variante BiGRU+POS)
+N_CABEZAS_ATT = 4                  # cabezas de la autoatencion del etiquetador
+
+# --- Embeddings: reescalado de los vectores preentrenados ---
+NORMALIZAR_EMB = {"spacy": True}   # recentra y reescala para que tengan la escala de los demas embeddings
+STD_EMB_OBJETIVO = 0.3
+
+# --- Fase 3: busqueda de hiperparametros, decodificacion y copia ---
+GRID_S2S = {"hidden": [256, 512], "dropout": [0.3, 0.5], "lr": [1e-3, 5e-4]}
+HP_EPOCAS = 6                      # epocas de cada combinacion de la busqueda (con --buscar-hp)
+BEAM = 4                           # tamano del haz (0 = solo decodificacion voraz)
+NO_REPETIR_NGRAMA = 3              # prohibe repetir un mismo n-grama en la salida
+LONG_ALPHA = 0.6                   # normalizacion por longitud en beam search
+
+# --- Preentrenamiento con un dataset externo (se conecta en preentreno.py) ---
+EXTERNO_MAX = 20000                # maximo de pares (complejo, simple) del dataset externo
+PRE_EPOCAS_S2S = 5                 # epocas de preentrenamiento del seq2seq
+PRE_EPOCAS_TAG = 3                 # epocas de preentrenamiento del etiquetador BiGRU

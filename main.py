@@ -1,8 +1,8 @@
 import argparse
 import pandas as pd
 
-from config import CARPETA_SALIDA
-from data_loader import cargar_dataset, split_dataset
+from config import CARPETA_SALIDA, SEMILLAS, BEAM
+from data_loader import cargar_dataset, split_dataset, tiene_prefijo, reparar_prefijo_procesado
 from nlp_processor import cargar_spacy, procesar_textos
 from vectorizacion_clasica import crear_bag_of_words, crear_tfidf
 from modelo_word2vec import (
@@ -14,9 +14,10 @@ from modelo_word2vec import (
 from modelo_roberta import generar_embeddings_contextuales
 from exportador import exportar_corpus, cargar_corpus_exportado, exportar_tabla
 
-COLUMNAS_FASE1 = ["modelo", "familia", "representacion", "accuracy", "precision", "recall", "f1",
-                  "f1_val", "hiperparametros"]
-COLUMNAS_FASE3 = ["modelo", "familia", "representacion", "bleu_val", "bleu_test", "cobertura_emb", "epocas"]
+COLUMNAS_FASE1 = ["modelo", "familia", "representacion", "accuracy", "precision", "recall", "f1", "f1_std",
+                  "f1_ic95_s0", "f1_val", "n_semillas", "hiperparametros"]
+COLUMNAS_FASE3 = ["modelo", "familia", "representacion", "bleu_val", "bleu_test", "bleu_test_std",
+                  "bleu_test_beam", "bleu_test_ic", "cobertura_emb", "epocas", "n_semillas"]
 
 
 def pipeline_e2():
@@ -69,29 +70,52 @@ def cargar_e2_guardado():
     from gensim.models import Word2Vec
     print("\n--- Cargando resultados del E2 ya guardados ---")
     df_procesado = cargar_corpus_exportado()
-    modelo_w2v = Word2Vec.load(str(CARPETA_SALIDA / "word2vec_juridico.model"))
+    if tiene_prefijo(df_procesado):
+        # El E2 guardado es anterior a la correccion de datos: se quita el prefijo del prompt sin repetir
+        # spaCy y se reentrena el Word2Vec (rapido) porque su vocabulario incluia ese prefijo.
+        df_procesado, n = reparar_prefijo_procesado(df_procesado)
+        print(f"\n[correccion de datos] prefijo del prompt eliminado en {n} textos del E2 guardado.")
+        print("Se reentrena el Word2Vec con los textos corregidos. Para regenerar TODOS los ficheros del E2 "
+              "(BoW, TF-IDF, RoBERTa, OOV...) ejecuta: python main.py --solo-e2")
+        modelo_w2v = entrenar_word2vec(df_procesado[df_procesado["split"] == "train"])
+    else:
+        modelo_w2v = Word2Vec.load(str(CARPETA_SALIDA / "word2vec_juridico.model"))
     return df_procesado, cargar_spacy(), modelo_w2v
 
 
 def pipeline_e3(df_procesado, nlp, modelo_w2v, args):
-    """E3: primera iteracion. Fase 1 (palabras complejas, clasificacion) y fase 3 (simplificacion, BLEU)."""
+    """E3: iteracion corregida. Fase 1 (palabras complejas, clasificacion) y fase 3 (simplificacion, BLEU),
+    con varias semillas, analisis de errores y, opcionalmente, preentrenamiento con un dataset externo."""
+    if tiene_prefijo(df_procesado):
+        raise SystemExit("El corpus aun contiene el prefijo 'Escribe el siguiente texto en lenguaje claro:'. "
+                         "Ejecuta primero el E2 (python main.py --solo-e2) o usa --solo-e3 para repararlo.")
     train = df_procesado[df_procesado["split"] == "train"].reset_index(drop=True)
     val = df_procesado[df_procesado["split"] == "validation"].reset_index(drop=True)
     test = df_procesado[df_procesado["split"] == "test"].reset_index(drop=True)
     epocas, sufijo = None, ""
-    if args.rapido:                      # prueba de humo: subconjunto pequeno y 2 epocas
+    semillas = SEMILLAS[:max(1, min(args.semillas, len(SEMILLAS)))]
+    if args.rapido:                      # prueba de humo: subconjunto pequeno, 2 epocas y 1 semilla
         train, val, test, epocas, sufijo = train.head(200), val.head(60), test.head(60), 2, "_rapido"
+        semillas = semillas[:1]
+
+    externo = None
+    if args.externo:
+        from preentreno import preparar_externo
+        externo = preparar_externo(nlp, df_procesado, train)
+    opc = {"semillas": semillas, "beam": args.beam, "buscar_hp": args.buscar_hp, "externo": externo}
+    print(f"\n[E3] semillas={semillas} | beam={args.beam or 'no'} | busqueda HP={args.buscar_hp} | "
+          f"dataset externo={'si' if externo else 'no'}")
 
     if args.fase in ("1", "todo"):
         from tecnicismos import ejecutar_fase1
         res = ejecutar_fase1(train, val, test, modelo_w2v, nlp, con_deep=not args.sin_deep,
-                             con_bert=not args.sin_bert, epocas=epocas, variantes=args.variantes)
+                             con_bert=not args.sin_bert, epocas=epocas, variantes=args.variantes, opc=opc)
         exportar_tabla(pd.DataFrame(res), "tabla_fase1_tecnicismos", COLUMNAS_FASE1, sufijo)
 
     if args.fase in ("3", "todo"):
         from simplificacion import ejecutar_fase3
         res = ejecutar_fase3(train, val, test, modelo_w2v, nlp, con_deep=not args.sin_deep,
-                             epocas=epocas, variantes=args.variantes)
+                             epocas=epocas, variantes=args.variantes, opc=opc)
         exportar_tabla(pd.DataFrame(res), "tabla_fase3_simplificacion", COLUMNAS_FASE3, sufijo)
 
 
@@ -104,6 +128,13 @@ def main():
     ap.add_argument("--sin-bert", action="store_true", help="E3 sin RoBERTa (util si no hay GPU)")
     ap.add_argument("--rapido", action="store_true", help="E3: prueba de humo con pocos textos y 2 epocas")
     ap.add_argument("--variantes", nargs="*", help="E3: nombres exactos de las variantes de redes a ejecutar")
+    ap.add_argument("--semillas", type=int, default=len(SEMILLAS),
+                    help=f"E3: numero de semillas por red (1-{len(SEMILLAS)}); se informa media y desviacion")
+    ap.add_argument("--beam", type=int, default=BEAM, help="E3 fase 3: tamano del haz (0 = solo decodificacion voraz)")
+    ap.add_argument("--buscar-hp", action="store_true",
+                    help="E3 fase 3: busqueda de hiperparametros del seq2seq sobre validacion (lenta)")
+    ap.add_argument("--externo", action="store_true",
+                    help="E3: usar el dataset externo conectado en preentreno.py (preentreno y Word2Vec externo)")
     args = ap.parse_args()
 
     if args.solo_e3:

@@ -1,6 +1,23 @@
 import spacy
 from config import MODELO_SPACY
 
+def extraer(doc):
+    """Lo que se guarda de cada texto. pos/stop/ent (nuevos) estan alineados con 'tokens' y se usan
+    como rasgos no textuales en la fase 1."""
+    return {
+        "tokens": [t.text for t in doc if not t.is_space],
+        "oraciones": [s.text for s in doc.sents],
+        "lemas": [t.lemma_ for t in doc if not t.is_space],
+        "pos": [t.pos_ for t in doc if not t.is_space],
+        "stop": [bool(t.is_stop) for t in doc if not t.is_space],
+        "ent": [t.ent_type_ or "O" for t in doc if not t.is_space],
+        "entidades": [
+            {"texto": ent.text, "tipo": ent.label_}
+            for ent in doc.ents
+        ],
+    }
+
+
 #el spacy analiza y entiende la estructura gramatical del texto
 def cargar_spacy():
     print("\n CARGAR SPACY:")
@@ -18,17 +35,6 @@ def procesar_textos(df, nlp):
     df = df.copy()
     originales = df["question"].tolist()
     simplificados = df["answer"].tolist()
-
-    def extraer(doc):
-        return {
-            "tokens": [t.text for t in doc if not t.is_space],
-            "oraciones": [s.text for s in doc.sents],
-            "lemas": [t.lemma_ for t in doc if not t.is_space],
-            "entidades": [
-                {"texto": ent.text, "tipo": ent.label_}
-                for ent in doc.ents
-            ],
-        }
 
     print("Procesando textos con spaCy...")
     docs_originales = list(nlp.pipe(originales, batch_size=32))

@@ -53,6 +53,8 @@ def _tabla_markdown(df, columnas):
     columnas = [c for c in columnas if c in df.columns]
 
     def formato(valor, col):
+        if isinstance(valor, str):
+            return valor
         if pd.isna(valor):
             return "-"
         if col.startswith("bleu"):
