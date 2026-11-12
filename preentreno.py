@@ -26,8 +26,8 @@ from data_loader import quitar_prefijo
 def cargar_dataset_externo():
     df = pd.read_csv("alia_legal_1500_lenguaje_claro.csv")   # si da error, probad sep=";" o encoding="utf-8-sig"
     print("Columnas del dataset externo:", list(df.columns))
-    return df.rename(columns={"NOMBRE_COL_ORIGINAL": "question",
-                              "NOMBRE_COL_SIMPLIFICADO": "answer"})[["question", "answer"]]
+    return df.rename(columns={"NOMBRE_COL_ORIGINAL": "text",
+                              "NOMBRE_COL_SIMPLIFICADO": "texto_simplificado"})[["question", "answer"]]
 # -----------------------------------------------------------------------------------------
 
 
