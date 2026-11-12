@@ -24,22 +24,10 @@ from data_loader import quitar_prefijo
 
 # --------------------------------------------------------------------------- CONECTAR AQUI
 def cargar_dataset_externo():
-    """Devuelve un DataFrame con dos columnas de texto:
-         'question' -> texto original (complejo)
-         'answer'   -> texto simplificado
-    o None si todavia no hay dataset conectado (entonces se omiten las variantes externas).
-
-    Ejemplos:
-        # Hugging Face
-        from datasets import load_dataset
-        df = load_dataset("usuario/dataset", split="train").to_pandas()
-        return df.rename(columns={"complex": "question", "simple": "answer"})[["question", "answer"]]
-
-        # CSV local
-        df = pd.read_csv("mi_dataset.csv")
-        return df.rename(columns={"original": "question", "simplificado": "answer"})[["question", "answer"]]
-    """
-    return None
+    df = pd.read_csv("alia_legal_1500_lenguaje_claro.csv")   # si da error, probad sep=";" o encoding="utf-8-sig"
+    print("Columnas del dataset externo:", list(df.columns))
+    return df.rename(columns={"NOMBRE_COL_ORIGINAL": "question",
+                              "NOMBRE_COL_SIMPLIFICADO": "answer"})[["question", "answer"]]
 # -----------------------------------------------------------------------------------------
 
 
