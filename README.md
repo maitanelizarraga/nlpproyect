@@ -16,6 +16,10 @@ E3 = modelos (fase 1: palabras complejas; fase 3: simplificación).
 
 ## Uso
 
+**Un solo comando (hace todo solo):** `python ejecutar_todo.py` (ajustes en las constantes de su cabecera).
+
+Opciones manuales con `main.py`:
+
 ```
 python main.py                                  # E2 + E3 (regenera todo el E2 con los datos corregidos)
 python main.py --solo-e3                        # E3 con el E2 guardado (lo repara si es el antiguo)
