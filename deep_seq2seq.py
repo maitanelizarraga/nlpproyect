@@ -236,7 +236,7 @@ def entrenar_variante(nombre, cfg, itos, datos, modelo_w2v, nlp, epocas):
     hip_te = traducir(modelo, datos["test"][0], itos)
     l_te, a_te = _epoca(modelo, (datos["test"][0], datos["test"][1]))
     res = {"modelo": nombre, "familia": "deep",
-           "representacion": {"aleatorio": "Embeddings aleatorios", "w2v": "Word2Vec propio (E2)",
+           "representacion": {"aleatorio": "Embeddings aleatorios", "w2v": "Word2Vec propio",
                               "spacy": "spaCy es_core_news_md"}[cfg["emb"]]
                              + (" congelado" if cfg["congelar"] and cfg["emb"] != "aleatorio" else "")
                              + (" fine-tuneado" if not cfg["congelar"] and cfg["emb"] != "aleatorio" else ""),

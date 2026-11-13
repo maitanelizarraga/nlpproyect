@@ -1,4 +1,4 @@
-"""Embeddings que se comparan en el E3 (fase 1 y fase 3): aleatorios, Word2Vec propio (E2) y spaCy.
+"""Embeddings que se comparan en el E3 (fase 1 y fase 3): aleatorios, Word2Vec propio y spaCy.
 Reutilizan en memoria el modelo Word2Vec y el modelo de spaCy que ya se han cargado en el E2."""
 import random
 import numpy as np

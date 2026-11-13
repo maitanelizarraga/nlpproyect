@@ -44,3 +44,6 @@ S2S_MAX_SRC = 200
 S2S_MAX_TGT = 200
 S2S_HIDDEN = 256
 S2S_EPOCAS = 20
+
+# --- Instruccion que trae cada texto original del corpus (no forma parte del texto juridico) ---
+PREFIJO_INSTRUCCION = r"^\s*Escribe el siguiente texto en lenguaje claro:\s*"

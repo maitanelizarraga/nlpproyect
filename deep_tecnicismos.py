@@ -44,7 +44,7 @@ def _elegir_umbral(chunks, probs):
 def _resultado(nombre, cfg, val, test, pv, pt, epocas, n_param, t0, cobertura, umbral):
     m_va = _metricas_desde_probs(val, pv, umbral)
     m_te = _metricas_desde_probs(test, pt, umbral)
-    rep = {"aleatorio": "Embeddings aleatorios", "w2v": "Word2Vec propio (E2)",
+    rep = {"aleatorio": "Embeddings aleatorios", "w2v": "Word2Vec propio",
            "spacy": "spaCy es_core_news_md", None: "BERTIN (contextual)"}[cfg.get("emb")]
     if cfg.get("emb") != "aleatorio":
         rep += " congelado" if cfg["congelar"] else " fine-tuneado"

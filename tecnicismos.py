@@ -102,7 +102,7 @@ def baseline_lema(train_tok, val_tok, test_tok):
     return pred(val_tok), pred(test_tok)
 
 
-def ejecutar_shallow_tecnicismos(train, val, test):
+def ejecutar_shallow_tecnicismos(train, val, test, palabras_vacias=()):
     print("\n=== FASE 1 · SHALLOW LEARNING (tecnicismos, representación dispersa) ===")
     datos = {v: [construir_tokens(d, v) for d in (train, val, test)] for v in VENTANAS}
     ytr = datos[VENTANAS[0]][0][2]
@@ -150,7 +150,9 @@ def ejecutar_shallow_tecnicismos(train, val, test):
 
     # Puente con la fase 2 (glosario): lemas que el mejor modelo marca como complejos en test
     _, nombre, lemas_te, pred_te = mejor_global
-    cnt = Counter(l for l, p in zip(lemas_te, pred_te) if p == 1)
+    # Candidatos para el glosario: sin palabras vacias (por, del, con...) ni lemas muy cortos
+    cnt = Counter(l for l, p in zip(lemas_te, pred_te)
+                  if p == 1 and len(l) >= 4 and l not in palabras_vacias)
     CARPETA_E3.mkdir(parents=True, exist_ok=True)
     pd.DataFrame(cnt.most_common(200), columns=["lema", "apariciones_marcado_complejo"]) \
         .to_csv(CARPETA_E3 / "candidatos_glosario.csv", index=False)
@@ -162,7 +164,8 @@ def ejecutar_fase1(train, val, test, modelo_w2v, nlp, con_deep=True, con_bert=Tr
     """FASE 1 completa: etiquetas + shallow learning + redes (GRU bidireccional y RoBERTa).
     train/val/test son los DataFrames del E2 (con procesado_original y procesado_simplificado)."""
     train, val, test = (anadir_etiquetas(d) for d in (train, val, test))
-    resultados = ejecutar_shallow_tecnicismos(train, val, test)
+    vacias = nlp.Defaults.stop_words if nlp is not None else set()
+    resultados = ejecutar_shallow_tecnicismos(train, val, test, vacias)
     if con_deep:
         from deep_tecnicismos import ejecutar_deep_tecnicismos   # import tardio: torch solo si hace falta
         resultados += ejecutar_deep_tecnicismos(trocear(train), trocear(val), trocear(test),

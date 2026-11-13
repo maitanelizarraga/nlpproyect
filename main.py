@@ -73,23 +73,33 @@ def cargar_e2_guardado():
     return df_procesado, cargar_spacy(), modelo_w2v
 
 
+def particiones(df, rapido):
+    train = df[df["split"] == "train"].reset_index(drop=True)
+    val = df[df["split"] == "validation"].reset_index(drop=True)
+    test = df[df["split"] == "test"].reset_index(drop=True)
+    if rapido:                           # prueba de humo: subconjunto pequeno
+        train, val, test = train.head(200), val.head(60), test.head(60)
+    return train, val, test
+
+
 def pipeline_e3(df_procesado, nlp, modelo_w2v, args):
     """E3: primera iteracion. Fase 1 (palabras complejas, clasificacion) y fase 3 (simplificacion, BLEU)."""
-    train = df_procesado[df_procesado["split"] == "train"].reset_index(drop=True)
-    val = df_procesado[df_procesado["split"] == "validation"].reset_index(drop=True)
-    test = df_procesado[df_procesado["split"] == "test"].reset_index(drop=True)
-    epocas, sufijo = None, ""
-    if args.rapido:                      # prueba de humo: subconjunto pequeno y 2 epocas
-        train, val, test, epocas, sufijo = train.head(200), val.head(60), test.head(60), 2, "_rapido"
+    from preparacion_e3 import quitar_instruccion
+    epocas, sufijo = (2, "_rapido") if args.rapido else (None, "")
 
     if args.fase in ("1", "todo"):
         from tecnicismos import ejecutar_fase1
+        # Fase 1: SIEMPRE sin la instruccion inicial (si no, las etiquetas y los resultados salen inflados)
+        train, val, test = (quitar_instruccion(d, nlp) for d in particiones(df_procesado, args.rapido))
         res = ejecutar_fase1(train, val, test, modelo_w2v, nlp, con_deep=not args.sin_deep,
                              con_bert=not args.sin_bert, epocas=epocas, variantes=args.variantes)
         exportar_tabla(pd.DataFrame(res), "tabla_fase1_tecnicismos", COLUMNAS_FASE1, sufijo)
 
     if args.fase in ("3", "todo"):
         from simplificacion import ejecutar_fase3
+        train, val, test = particiones(df_procesado, args.rapido)
+        if args.limpiar_fase3:           # opcional: tambien sin la instruccion (hay que repetir la fase 3 entera)
+            train, val, test = (quitar_instruccion(d, nlp) for d in (train, val, test))
         res = ejecutar_fase3(train, val, test, modelo_w2v, nlp, con_deep=not args.sin_deep,
                              epocas=epocas, variantes=args.variantes)
         exportar_tabla(pd.DataFrame(res), "tabla_fase3_simplificacion", COLUMNAS_FASE3, sufijo)
@@ -103,6 +113,7 @@ def main():
     ap.add_argument("--sin-deep", action="store_true", help="E3 sin redes neuronales (solo shallow y puntos de comparacion)")
     ap.add_argument("--sin-bert", action="store_true", help="E3 sin RoBERTa (util si no hay GPU)")
     ap.add_argument("--rapido", action="store_true", help="E3: prueba de humo con pocos textos y 2 epocas")
+    ap.add_argument("--limpiar-fase3", action="store_true", help="E3: quitar tambien la instruccion inicial en la fase 3")
     ap.add_argument("--variantes", nargs="*", help="E3: nombres exactos de las variantes de redes a ejecutar")
     args = ap.parse_args()
 
