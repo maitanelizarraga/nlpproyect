@@ -1,0 +1,11 @@
+sistema,palabras_media,ratio_longitud_vs_ref,trigramas_repetidos_pct,cifras_conservadas_pct,entidades_conservadas_pct
+Baseline: copiar el original,64.2,1.09,1.05,100.0,100.0
+Baseline: vecino más cercano (TF-IDF),78.1,1.35,2.13,20.9,34.1
+"GRU+att, embeddings aleatorios",6.1,0.11,0.0,0.0,0.0
+"GRU+att, Word2Vec propio congelado",200.0,3.74,0.0,0.0,0.2
+"GRU+att, Word2Vec propio fine-tuneado",200.0,3.74,0.0,0.0,0.2
+"GRU+att, spaCy congelado",59.7,1.09,0.0,0.0,3.4
+"GRU+att, spaCy fine-tuneado",51.3,0.97,0.0,0.0,3.4
+"GRU sin atención, Word2Vec propio fine-tuneado",198.7,3.72,0.0,0.0,0.0
+"GRU+att+copia, Word2Vec propio fine-tuneado",89.5,1.73,0.0,5.9,14.9
+Referencia (GPT-3.5 del corpus),62.2,1.0,1.26,74.4,71.9

@@ -1,0 +1,121 @@
+modelo,tipo,lema,n_errores,n_apariciones
+TF-IDF + SVM lineal · rasgos base,falso_negativo,a,148,767
+TF-IDF + SVM lineal · rasgos base,falso_negativo,él,112,775
+TF-IDF + SVM lineal · rasgos base,falso_negativo,de,110,3945
+TF-IDF + SVM lineal · rasgos base,falso_negativo,del,88,698
+TF-IDF + SVM lineal · rasgos base,falso_negativo,que,87,790
+TF-IDF + SVM lineal · rasgos base,falso_negativo,uno,84,562
+TF-IDF + SVM lineal · rasgos base,falso_negativo,ser,63,340
+TF-IDF + SVM lineal · rasgos base,falso_negativo,en,62,1119
+TF-IDF + SVM lineal · rasgos base,falso_negativo,y,57,1469
+TF-IDF + SVM lineal · rasgos base,falso_negativo,este,47,290
+TF-IDF + SVM lineal · rasgos base,falso_negativo,para,40,484
+TF-IDF + SVM lineal · rasgos base,falso_negativo,con,29,405
+TF-IDF + SVM lineal · rasgos base,falso_negativo,o,29,230
+TF-IDF + SVM lineal · rasgos base,falso_negativo,haber,27,264
+TF-IDF + SVM lineal · rasgos base,falso_negativo,información,23,212
+TF-IDF + SVM lineal · rasgos base,falso_negativo,sobre,22,106
+TF-IDF + SVM lineal · rasgos base,falso_negativo,público,18,80
+TF-IDF + SVM lineal · rasgos base,falso_negativo,no,18,145
+TF-IDF + SVM lineal · rasgos base,falso_negativo,poder,18,177
+TF-IDF + SVM lineal · rasgos base,falso_negativo,año,16,73
+TF-IDF + SVM lineal · rasgos base,falso_positivo,por,157,365
+TF-IDF + SVM lineal · rasgos base,falso_positivo,su,138,308
+TF-IDF + SVM lineal · rasgos base,falso_positivo,del,129,698
+TF-IDF + SVM lineal · rasgos base,falso_positivo,con,128,405
+TF-IDF + SVM lineal · rasgos base,falso_positivo,haber,93,264
+TF-IDF + SVM lineal · rasgos base,falso_positivo,al,85,198
+TF-IDF + SVM lineal · rasgos base,falso_positivo,como,65,169
+TF-IDF + SVM lineal · rasgos base,falso_positivo,usuario,39,93
+TF-IDF + SVM lineal · rasgos base,falso_positivo,entre,38,70
+TF-IDF + SVM lineal · rasgos base,falso_positivo,tener,37,91
+TF-IDF + SVM lineal · rasgos base,falso_positivo,uso,34,75
+TF-IDF + SVM lineal · rasgos base,falso_positivo,estar,30,75
+TF-IDF + SVM lineal · rasgos base,falso_positivo,también,28,50
+TF-IDF + SVM lineal · rasgos base,falso_positivo,él,27,775
+TF-IDF + SVM lineal · rasgos base,falso_positivo,desarrollo,26,55
+TF-IDF + SVM lineal · rasgos base,falso_positivo,económico,26,45
+TF-IDF + SVM lineal · rasgos base,falso_positivo,a,26,767
+TF-IDF + SVM lineal · rasgos base,falso_positivo,usar,25,40
+TF-IDF + SVM lineal · rasgos base,falso_positivo,e,25,86
+TF-IDF + SVM lineal · rasgos base,falso_positivo,desde,24,45
+BERTIN fine-tuneado,falso_negativo,a,134,767
+BERTIN fine-tuneado,falso_negativo,él,114,775
+BERTIN fine-tuneado,falso_negativo,de,108,3945
+BERTIN fine-tuneado,falso_negativo,del,85,698
+BERTIN fine-tuneado,falso_negativo,que,80,790
+BERTIN fine-tuneado,falso_negativo,uno,72,562
+BERTIN fine-tuneado,falso_negativo,ser,68,340
+BERTIN fine-tuneado,falso_negativo,con,55,405
+BERTIN fine-tuneado,falso_negativo,en,55,1119
+BERTIN fine-tuneado,falso_negativo,este,45,290
+BERTIN fine-tuneado,falso_negativo,su,43,308
+BERTIN fine-tuneado,falso_negativo,haber,43,264
+BERTIN fine-tuneado,falso_negativo,para,39,484
+BERTIN fine-tuneado,falso_negativo,y,39,1469
+BERTIN fine-tuneado,falso_negativo,por,30,365
+BERTIN fine-tuneado,falso_negativo,como,26,169
+BERTIN fine-tuneado,falso_negativo,información,23,212
+BERTIN fine-tuneado,falso_negativo,público,19,80
+BERTIN fine-tuneado,falso_negativo,no,17,145
+BERTIN fine-tuneado,falso_negativo,o,16,230
+BERTIN fine-tuneado,falso_positivo,por,100,365
+BERTIN fine-tuneado,falso_positivo,del,66,698
+BERTIN fine-tuneado,falso_positivo,su,54,308
+BERTIN fine-tuneado,falso_positivo,al,49,198
+BERTIN fine-tuneado,falso_positivo,a,45,767
+BERTIN fine-tuneado,falso_positivo,con,43,405
+BERTIN fine-tuneado,falso_positivo,y,32,1469
+BERTIN fine-tuneado,falso_positivo,uno,30,562
+BERTIN fine-tuneado,falso_positivo,que,26,790
+BERTIN fine-tuneado,falso_positivo,como,26,169
+BERTIN fine-tuneado,falso_positivo,haber,25,264
+BERTIN fine-tuneado,falso_positivo,en,22,1119
+BERTIN fine-tuneado,falso_positivo,uso,21,75
+BERTIN fine-tuneado,falso_positivo,él,21,775
+BERTIN fine-tuneado,falso_positivo,tener,18,91
+BERTIN fine-tuneado,falso_positivo,utilizar,18,59
+BERTIN fine-tuneado,falso_positivo,administración,17,51
+BERTIN fine-tuneado,falso_positivo,también,17,50
+BERTIN fine-tuneado,falso_positivo,e,17,86
+BERTIN fine-tuneado,falso_positivo,económico,17,45
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,a,136,767
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,él,122,775
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,de,110,3945
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,del,88,698
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,que,83,790
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,uno,77,562
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,ser,63,340
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,en,56,1119
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,y,47,1469
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,con,44,405
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,este,43,290
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,para,41,484
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,haber,30,264
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,público,26,80
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,o,26,230
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,información,22,212
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,sobre,19,106
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,como,18,169
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,estado,17,61
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_negativo,año,16,73
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,por,127,365
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,su,123,308
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,del,114,698
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,con,96,405
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,al,79,198
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,haber,66,264
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,a,46,767
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,como,41,169
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,uso,34,75
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,tener,34,91
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,entre,24,70
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,usuario,24,93
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,también,22,50
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,desde,21,45
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,portal,21,90
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,permitir,20,78
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,sin,20,42
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,utilizar,19,59
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,uno,19,562
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",falso_positivo,estar,18,75

@@ -1,5 +1,5 @@
 particion,tokens,oov,pct_oov
-global,330700,7306,2.21
-train,232090,3624,1.56
-validation,48813,1687,3.46
-test,49797,1995,4.01
+global,298278,7259,2.43
+train,209409,3592,1.72
+validation,43953,1677,3.82
+test,44916,1990,4.43
