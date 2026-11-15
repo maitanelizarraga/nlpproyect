@@ -1,6 +1,6 @@
 """Preentrenamiento con un dataset externo.
 
-TODO (vosotras): conectar el dataset en `cargar_dataset_externo()` (es lo unico que hay que tocar).
+El dataset externo se conecta en `cargar_dataset_externo()` (ahora lee config.ARCHIVO_EXTERNO).
 
 El dataset debe ser de PARES (texto complejo, texto simplificado) en español, porque se usa igual
 que el corpus propio:
@@ -22,24 +22,26 @@ from config import CARPETA_E3, EXTERNO_MAX, SEED
 from data_loader import quitar_prefijo
 
 
-# --------------------------------------------------------------------------- CONECTAR AQUI
+# --------------------------------------------------------------------------- DATASET EXTERNO
 def cargar_dataset_externo():
-    """Devuelve un DataFrame con dos columnas de texto:
-         'question' -> texto original (complejo)
-         'answer'   -> texto simplificado
-    o None si todavia no hay dataset conectado (entonces se omiten las variantes externas).
+    """Devuelve el DataFrame (columnas 'question' = original y 'answer' = lenguaje claro) del dataset
+    externo, o None si el fichero no esta (entonces se omiten las variantes externas).
 
-    Ejemplos:
-        # Hugging Face
+    Dataset conectado: alia_legal_1500_lenguaje_claro.csv (config.ARCHIVO_EXTERNO), pares de textos
+    juridico-administrativos en español con su version en lenguaje claro (279 pares). Es del mismo
+    dominio y tarea que el corpus principal, pero mucho mas pequeno y con respuestas a veces resumidas.
+    Para usar otro dataset basta con cambiar ARCHIVO_EXTERNO o devolver aqui otro DataFrame, p. ej.:
         from datasets import load_dataset
         df = load_dataset("usuario/dataset", split="train").to_pandas()
         return df.rename(columns={"complex": "question", "simple": "answer"})[["question", "answer"]]
-
-        # CSV local
-        df = pd.read_csv("mi_dataset.csv")
-        return df.rename(columns={"original": "question", "simplificado": "answer"})[["question", "answer"]]
     """
-    return None
+    from config import ARCHIVO_EXTERNO
+    if not ARCHIVO_EXTERNO.exists():
+        print(f"[preentreno] No existe {ARCHIVO_EXTERNO}: se omiten las variantes con dataset externo.")
+        return None
+    df = pd.read_csv(ARCHIVO_EXTERNO, encoding="utf-8-sig")
+    print(f"[preentreno] Dataset externo cargado de {ARCHIVO_EXTERNO}: {len(df)} pares")
+    return df[["question", "answer"]]
 # -----------------------------------------------------------------------------------------
 
 
