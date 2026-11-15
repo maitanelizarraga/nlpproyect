@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 # Configuraciones básicas
@@ -12,7 +13,9 @@ MODELO_CONTEXTUAL = "bertin-project/bertin-roberta-base-spanish"
 MAX_TOKENS_ROBERTA = 512
 BATCH_SIZE_ROBERTA = 8
 # ======================= E3: PRIMERA ITERACION =======================
-CARPETA_E3 = Path("resultados_e3")
+# La carpeta de salida del E3 se puede cambiar con la variable de entorno E3_SALIDA. ejecutar_todo.py la usa
+# para que la PRUEBA DE HUMO escriba en "resultados_e3_rapido" y no pise los resultados reales.
+CARPETA_E3 = Path(os.environ.get("E3_SALIDA", "resultados_e3"))
 
 # --- Fase 1 (palabras complejas) con shallow learning: rejilla de hiper-parametros ---
 VENTANAS = [0, 2]                  # palabras vecinas que se usan como contexto (0 = ninguna)
@@ -74,3 +77,8 @@ LONG_ALPHA = 0.6                   # normalizacion por longitud en beam search
 EXTERNO_MAX = 20000                # maximo de pares (complejo, simple) del dataset externo
 PRE_EPOCAS_S2S = 5                 # epocas de preentrenamiento del seq2seq
 PRE_EPOCAS_TAG = 3                 # epocas de preentrenamiento del etiquetador BiGRU
+
+
+# --- Dataset externo para el preentrenamiento (se lee en preentreno.cargar_dataset_externo) ---
+# CSV con pares (texto complejo, texto en lenguaje claro): columnas 'question' y 'answer'.
+ARCHIVO_EXTERNO = Path("alia_legal_1500_lenguaje_claro.csv")
