@@ -1,0 +1,5 @@
+sistema,palabras_media,ratio_longitud_vs_ref,trigramas_repetidos_pct,cifras_conservadas_pct,entidades_conservadas_pct
+Baseline: copiar el original,66.5,1.07,1.15,100.0,100.0
+Baseline: vecino más cercano (TF-IDF),66.3,1.11,1.56,36.2,37.5
+"GRU+att+copia, Word2Vec propio fine-tuneado",58.6,0.97,0.0,64.5,60.9
+Referencia (GPT-3.5 del corpus),64.8,1.0,1.2,83.8,65.8
