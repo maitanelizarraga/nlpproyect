@@ -1,0 +1,67 @@
+modelo,dimension,valor,n,pct_complejas,precision,recall,f1
+TF-IDF + SVM lineal · rasgos base,categoria_gramatical,ADJ,3249,60.9,0.7,0.944,0.804
+TF-IDF + SVM lineal · rasgos base,categoria_gramatical,ADP,8373,15.9,0.562,0.622,0.59
+TF-IDF + SVM lineal · rasgos base,categoria_gramatical,ADV,784,52.9,0.755,0.904,0.822
+TF-IDF + SVM lineal · rasgos base,categoria_gramatical,AUX,896,26.8,0.442,0.521,0.478
+TF-IDF + SVM lineal · rasgos base,categoria_gramatical,CCONJ,1833,10.6,0.641,0.559,0.597
+TF-IDF + SVM lineal · rasgos base,categoria_gramatical,DET,6052,8.4,0.552,0.65,0.597
+TF-IDF + SVM lineal · rasgos base,categoria_gramatical,NOUN,8781,50.5,0.662,0.904,0.764
+TF-IDF + SVM lineal · rasgos base,categoria_gramatical,NUM,89,24.7,0.6,0.545,0.571
+TF-IDF + SVM lineal · rasgos base,categoria_gramatical,PART,17,70.6,0.75,0.5,0.6
+TF-IDF + SVM lineal · rasgos base,categoria_gramatical,PRON,1619,23.9,0.689,0.481,0.566
+TF-IDF + SVM lineal · rasgos base,categoria_gramatical,PROPN,4763,25.2,0.661,0.58,0.618
+TF-IDF + SVM lineal · rasgos base,categoria_gramatical,SCONJ,499,31.1,0.608,0.832,0.703
+TF-IDF + SVM lineal · rasgos base,categoria_gramatical,VERB,2942,74.4,0.796,0.98,0.878
+TF-IDF + SVM lineal · rasgos base,frecuencia_lema_train,no vista,976,68.0,0.787,0.866,0.824
+TF-IDF + SVM lineal · rasgos base,frecuencia_lema_train,1-2,1071,61.4,0.753,0.903,0.821
+TF-IDF + SVM lineal · rasgos base,frecuencia_lema_train,3-9,2192,57.3,0.715,0.931,0.809
+TF-IDF + SVM lineal · rasgos base,frecuencia_lema_train,10-49,5502,54.3,0.699,0.931,0.798
+TF-IDF + SVM lineal · rasgos base,frecuencia_lema_train,50+,30156,24.9,0.642,0.76,0.696
+TF-IDF + SVM lineal · rasgos base,longitud_palabra,1-4,20342,16.8,0.621,0.654,0.637
+TF-IDF + SVM lineal · rasgos base,longitud_palabra,5-7,8267,45.8,0.68,0.858,0.758
+TF-IDF + SVM lineal · rasgos base,longitud_palabra,8-10,7784,50.8,0.705,0.904,0.792
+TF-IDF + SVM lineal · rasgos base,longitud_palabra,11+,3504,54.8,0.688,0.919,0.787
+BERTIN fine-tuneado,categoria_gramatical,ADJ,3249,60.9,0.776,0.89,0.829
+BERTIN fine-tuneado,categoria_gramatical,ADP,8373,15.9,0.667,0.579,0.62
+BERTIN fine-tuneado,categoria_gramatical,ADV,784,52.9,0.781,0.884,0.829
+BERTIN fine-tuneado,categoria_gramatical,AUX,896,26.8,0.618,0.392,0.48
+BERTIN fine-tuneado,categoria_gramatical,CCONJ,1833,10.6,0.683,0.662,0.672
+BERTIN fine-tuneado,categoria_gramatical,DET,6052,8.4,0.639,0.583,0.61
+BERTIN fine-tuneado,categoria_gramatical,NOUN,8781,50.5,0.765,0.835,0.799
+BERTIN fine-tuneado,categoria_gramatical,NUM,89,24.7,0.722,0.591,0.65
+BERTIN fine-tuneado,categoria_gramatical,PART,17,70.6,0.714,0.417,0.526
+BERTIN fine-tuneado,categoria_gramatical,PRON,1619,23.9,0.716,0.475,0.571
+BERTIN fine-tuneado,categoria_gramatical,PROPN,4763,25.2,0.733,0.658,0.693
+BERTIN fine-tuneado,categoria_gramatical,SCONJ,499,31.1,0.693,0.684,0.688
+BERTIN fine-tuneado,categoria_gramatical,VERB,2942,74.4,0.837,0.949,0.889
+BERTIN fine-tuneado,frecuencia_lema_train,no vista,976,68.0,0.861,0.86,0.861
+BERTIN fine-tuneado,frecuencia_lema_train,1-2,1071,61.4,0.819,0.868,0.843
+BERTIN fine-tuneado,frecuencia_lema_train,3-9,2192,57.3,0.809,0.886,0.846
+BERTIN fine-tuneado,frecuencia_lema_train,10-49,5502,54.3,0.777,0.871,0.822
+BERTIN fine-tuneado,frecuencia_lema_train,50+,30156,24.9,0.73,0.725,0.727
+BERTIN fine-tuneado,longitud_palabra,1-4,20342,16.8,0.713,0.625,0.666
+BERTIN fine-tuneado,longitud_palabra,5-7,8267,45.8,0.759,0.808,0.783
+BERTIN fine-tuneado,longitud_palabra,8-10,7784,50.8,0.785,0.862,0.822
+BERTIN fine-tuneado,longitud_palabra,11+,3504,54.8,0.781,0.884,0.829
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",categoria_gramatical,ADJ,3249,60.9,0.761,0.853,0.804
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",categoria_gramatical,ADP,8373,15.9,0.584,0.608,0.596
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",categoria_gramatical,ADV,784,52.9,0.775,0.889,0.828
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",categoria_gramatical,AUX,896,26.8,0.485,0.479,0.482
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",categoria_gramatical,CCONJ,1833,10.6,0.771,0.605,0.678
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",categoria_gramatical,DET,6052,8.4,0.562,0.619,0.589
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",categoria_gramatical,NOUN,8781,50.5,0.715,0.839,0.772
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",categoria_gramatical,NUM,89,24.7,0.591,0.591,0.591
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",categoria_gramatical,PART,17,70.6,0.643,0.75,0.692
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",categoria_gramatical,PRON,1619,23.9,0.747,0.442,0.555
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",categoria_gramatical,PROPN,4763,25.2,0.698,0.59,0.64
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",categoria_gramatical,SCONJ,499,31.1,0.646,0.729,0.685
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",categoria_gramatical,VERB,2942,74.4,0.817,0.963,0.884
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",frecuencia_lema_train,no vista,976,68.0,0.785,0.88,0.83
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",frecuencia_lema_train,1-2,1071,61.4,0.765,0.877,0.817
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",frecuencia_lema_train,3-9,2192,57.3,0.778,0.889,0.829
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",frecuencia_lema_train,10-49,5502,54.3,0.745,0.859,0.798
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",frecuencia_lema_train,50+,30156,24.9,0.686,0.722,0.703
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",longitud_palabra,1-4,20342,16.8,0.652,0.632,0.642
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",longitud_palabra,5-7,8267,45.8,0.717,0.814,0.762
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",longitud_palabra,8-10,7784,50.8,0.757,0.852,0.801
+"BiGRU+autoatención+POS, Word2Vec propio fine-tuneado",longitud_palabra,11+,3504,54.8,0.748,0.862,0.801

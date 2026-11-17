@@ -3,9 +3,13 @@
 | Baseline: etiqueta mayoritaria por lema | baseline | - | 0.805 | 0.738 | 0.625 | 0.677 | - | [0.671, 0.684] | 0.685 | - | - |
 | Baseline: todo complejo | baseline | - | 0.328 | 0.328 | 1.000 | 0.494 | - | [0.488, 0.499] | 0.495 | - | - |
 | BoW + Regresión logística · rasgos base | shallow | Bag of Words (dispersa) | 0.815 | 0.684 | 0.810 | 0.742 | - | [0.736, 0.747] | 0.749 | 1.000 | ventana=2, C=1.0, class_weight=balanced |
+| BoW + Regresión logística · rasgos base + datos externos | shallow | Bag of Words (dispersa) | 0.812 | 0.680 | 0.808 | 0.738 | - | [0.732, 0.744] | 0.745 | 1.000 | ventana=2, C=1.0, class_weight=balanced; +34456 tokens externos |
 | BoW + Regresión logística · rasgos extendido | shallow | Bag of Words (dispersa) | 0.817 | 0.686 | 0.813 | 0.744 | - | [0.738, 0.750] | 0.750 | 1.000 | ventana=2, C=1.0, class_weight=balanced |
+| BoW + Regresión logística · rasgos extendido + datos externos | shallow | Bag of Words (dispersa) | 0.813 | 0.680 | 0.811 | 0.740 | - | [0.734, 0.745] | 0.745 | 1.000 | ventana=2, C=1.0, class_weight=balanced; +34456 tokens externos |
 | TF-IDF + SVM lineal · rasgos base | shallow | TF-IDF (dispersa) | 0.813 | 0.676 | 0.828 | 0.744 | - | [0.738, 0.749] | 0.751 | 1.000 | ventana=2, C=0.1, class_weight=balanced |
+| TF-IDF + SVM lineal · rasgos base + datos externos | shallow | TF-IDF (dispersa) | 0.811 | 0.671 | 0.829 | 0.742 | - | [0.736, 0.747] | 0.747 | 1.000 | ventana=2, C=0.1, class_weight=balanced; +34456 tokens externos |
 | TF-IDF + SVM lineal · rasgos extendido | shallow | TF-IDF (dispersa) | 0.814 | 0.676 | 0.833 | 0.746 | - | [0.741, 0.751] | 0.750 | 1.000 | ventana=2, C=0.1, class_weight=balanced |
+| TF-IDF + SVM lineal · rasgos extendido + datos externos | shallow | TF-IDF (dispersa) | 0.813 | 0.674 | 0.833 | 0.745 | - | [0.739, 0.750] | 0.747 | 1.000 | ventana=2, C=0.1, class_weight=balanced; +34456 tokens externos |
 | BiGRU, embeddings aleatorios | deep | Embeddings aleatorios | 0.813 | 0.687 | 0.792 | 0.735 | 0.002 | [0.732, 0.743] | 0.743 | 3.000 | umbral=0.35, épocas=15, semillas=3 |
 | BiGRU, Word2Vec propio congelado | deep | Word2Vec propio (E2) congelado | 0.802 | 0.665 | 0.801 | 0.727 | 0.004 | [0.723, 0.734] | 0.734 | 3.000 | umbral=0.45, épocas=15, semillas=3 |
 | BiGRU, Word2Vec propio fine-tuneado | deep | Word2Vec propio (E2) fine-tuneado | 0.819 | 0.697 | 0.790 | 0.741 | 0.003 | [0.732, 0.743] | 0.747 | 3.000 | umbral=0.40, épocas=10, semillas=3 |
@@ -13,5 +17,8 @@
 | BiGRU, spaCy fine-tuneado | deep | spaCy es_core_news_md fine-tuneado | 0.821 | 0.698 | 0.799 | 0.745 | 0.001 | [0.739, 0.749] | 0.750 | 3.000 | umbral=0.40, épocas=10, semillas=3 |
 | BiGRU+autoatención, Word2Vec propio fine-tuneado | deep | Word2Vec propio (E2) fine-tuneado | 0.824 | 0.708 | 0.786 | 0.745 | 0.000 | [0.740, 0.751] | 0.748 | 3.000 | umbral=0.40, épocas=11, semillas=3 |
 | BiGRU+autoatención+POS, Word2Vec propio fine-tuneado | deep | Word2Vec propio (E2) fine-tuneado | 0.829 | 0.724 | 0.770 | 0.746 | 0.005 | [0.745, 0.756] | 0.752 | 3.000 | umbral=0.45, épocas=9, semillas=3 |
+| BiGRU, Word2Vec externo fine-tuneado | deep | Word2Vec propio + dataset externo fine-tuneado | 0.817 | 0.688 | 0.807 | 0.743 | 0.003 | [0.734, 0.745] | 0.747 | 3.000 | umbral=0.40, épocas=10, semillas=3 |
+| BiGRU, vocabulario ampliado, sin preentreno (control) | deep | Word2Vec propio (E2) fine-tuneado | 0.819 | 0.699 | 0.788 | 0.740 | 0.003 | [0.732, 0.742] | 0.747 | 3.000 | umbral=0.40, épocas=10, semillas=3 |
+| BiGRU, preentreno en dataset externo + fine-tuning | deep | Word2Vec propio (E2) fine-tuneado + preentreno externo | 0.821 | 0.699 | 0.797 | 0.745 | 0.002 | [0.738, 0.749] | 0.750 | 3.000 | umbral=0.40, épocas=12, semillas=3 |
 | BERTIN congelado (solo capa lineal) | deep | BERTIN (contextual) congelado | 0.757 | 0.604 | 0.757 | 0.672 | 0.001 | [0.667, 0.679] | 0.670 | 3.000 | umbral=0.35, épocas=3, semillas=3 |
 | BERTIN fine-tuneado | deep | BERTIN (contextual) fine-tuneado | 0.848 | 0.755 | 0.794 | 0.774 | 0.003 | [0.769, 0.778] | 0.783 | 3.000 | umbral=0.45, épocas=3, semillas=3 |
