@@ -1,0 +1,4 @@
+modelo,familia,representacion,bleu_val,bleu_test,bleu_test_ic,n_semillas,loss_val,acc_token_test,epocas,parametros_entrenables,tiempo_s,cobertura_emb,bleu_test_beam,bleu_val_std,bleu_test_std,bleu_test_beam_std,hiperparametros
+Baseline: copiar el original,baseline,-,26.364234391401446,26.471716693130706,"[25.12, 27.78]",1,,,,,,,,,,,
+Baseline: vecino más cercano (TF-IDF),baseline,TF-IDF (dispersa),20.22906465237457,19.3009652084672,"[17.59, 20.80]",1,,,,,,,,,,,
+"GRU+att, Word2Vec propio fine-tuneado",deep,Word2Vec propio (E2) fine-tuneado,20.0232395656096,18.844517380748727,"[18.04, 20.76]",1,2.8336397793873083,0.42792963102995796,20.0,9302116.0,1012.0,1.0,19.357064561695935,0.0,0.0,0.0,"hidden=256, dropout=0.3, lr=0.001"
