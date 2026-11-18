@@ -1,0 +1,4 @@
+modelo,familia,representacion,bleu_val,bleu_test,bleu_test_ic,n_semillas,loss_val,acc_token_test,epocas,parametros_entrenables,tiempo_s,cobertura_emb,bleu_test_beam,bleu_val_std,bleu_test_std,bleu_test_beam_std,hiperparametros
+Baseline: copiar el original,baseline,-,26.364234391401446,26.471716693130706,"[25.12, 27.78]",1,,,,,,,,,,,
+Baseline: vecino más cercano (TF-IDF),baseline,TF-IDF (dispersa),20.22906465237457,19.3009652084672,"[17.59, 20.80]",1,,,,,,,,,,,
+"GRU+att, spaCy fine-tuneado",deep,spaCy es_core_news_md fine-tuneado,17.95970813917551,16.580724061665904,"[15.36, 18.30]",1,2.9571057754250063,0.4140515534995441,20.0,12964516.0,1140.0,0.9605,16.727747348602353,0.0,0.0,0.0,"hidden=256, dropout=0.3, lr=0.001"
